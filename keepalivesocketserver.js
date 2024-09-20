@@ -1,8 +1,10 @@
 const WebSocket = require('ws');
+const http = require('http'); // Required to bind the service to a port
 require('dotenv').config(); // Load environment variables
 
 // WebSocket URL from environment variable
 const wsUrl = process.env.WS_URL;
+const PORT = process.env.PORT || 8080; // Default to port 8080 if not set in environment
 
 // Function to keep the WebSocket connection alive
 function keepWebSocketAlive() {
@@ -43,5 +45,15 @@ function keepWebSocketAlive() {
     });
 }
 
-// Start the WebSocket keep-alive process
-keepWebSocketAlive();
+// Create a dummy HTTP server to keep the service alive on Render
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('WebSocket Keep-Alive Server Running\n');
+});
+
+// Start the server and listen on the specified port
+server.listen(PORT, () => {
+    console.log(`HTTP server listening on port ${PORT}`);
+    // Start the WebSocket keep-alive process after the server starts
+    keepWebSocketAlive();
+});

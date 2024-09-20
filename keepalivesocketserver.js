@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-const http = require('http');
 const express = require('express'); // Import Express
 require('dotenv').config(); // Load environment variables
 
@@ -53,11 +52,8 @@ function keepWebSocketAlive() {
     });
 }
 
-// Create an HTTP server using Express
-const server = http.createServer(app);
-
-// Start the server and listen on the specified port
-server.listen(PORT, () => {
+// Start the Express server and listen on the specified port
+app.listen(PORT, () => {
     console.log(`HTTP server listening on port ${PORT}`);
     // Start the WebSocket keep-alive process after the server starts
     keepWebSocketAlive();

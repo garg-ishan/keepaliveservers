@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8080; // Default to port 8080 if not set in env
 const app = express(); // Initialize Express app
 
 // Simple GET API
-app.get('/api/status', (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).json({ message: 'WebSocket Keep-Alive Server is running' });
 });
 
